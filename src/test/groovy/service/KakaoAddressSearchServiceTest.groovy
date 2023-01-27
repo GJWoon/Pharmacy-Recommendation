@@ -1,6 +1,7 @@
 package service
 
 import com.dev.pharmacy.api.service.KakaoUriBuilderService
+import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 class KakaoAddressSearchServiceTest extends Specification {

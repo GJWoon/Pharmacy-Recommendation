@@ -33,7 +33,11 @@ public class PharmacyRecommendationService {
 
      List<Direction> directionList = directionService.buildDirectionList(document);
 
-     directionService.saveAll(directionList);
+
+     // 카카오 카테고리 API를 사용
+     //List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
+
+        directionService.saveAll(directionList);
 
     }
 

@@ -28,6 +28,7 @@ public class PharmacyRecommendationService {
      if(Objects.isNull(kakaoApiResponseDto)){
          log.error("[PharmacyRecommendationService error!!] address:{}",address);
          return;
+
      }
      DocumentDto document = kakaoApiResponseDto.getDocumentList().get(0);
 

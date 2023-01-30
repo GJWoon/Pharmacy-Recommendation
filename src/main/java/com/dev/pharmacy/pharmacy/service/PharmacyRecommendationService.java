@@ -4,6 +4,7 @@ package com.dev.pharmacy.pharmacy.service;
 import com.dev.pharmacy.api.dto.DocumentDto;
 import com.dev.pharmacy.api.dto.KakaoApiResponseDto;
 import com.dev.pharmacy.api.service.KakaoAddressSearchService;
+import com.dev.pharmacy.direction.dto.OutputDto;
 import com.dev.pharmacy.direction.entity.Direction;
 import com.dev.pharmacy.direction.service.DirectionService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,25 +23,34 @@ public class PharmacyRecommendationService {
 
     private final KakaoAddressSearchService kakaoAddressSearchService;
     private final DirectionService directionService;
-    public void recommendPharmacyList(String address){
+    public List<OutputDto> recommendPharmacyList(String address){
 
      KakaoApiResponseDto kakaoApiResponseDto = kakaoAddressSearchService.requestAddressSearch(address);
 
      if(Objects.isNull(kakaoApiResponseDto)){
          log.error("[PharmacyRecommendationService error!!] address:{}",address);
-         return;
-
      }
      DocumentDto document = kakaoApiResponseDto.getDocumentList().get(0);
 
      List<Direction> directionList = directionService.buildDirectionList(document);
 
-
      // 카카오 카테고리 API를 사용
      //List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
 
         directionService.saveAll(directionList);
-
+        return directionList.stream()
+                .map(this::convertToOutputDto)
+                .collect(Collectors.toList());
     }
 
+    private OutputDto convertToOutputDto(Direction direction) {
+
+        return OutputDto.builder()
+                .pharmacyName(direction.getTargetPharmacyName())
+                .pharmacyAddress(direction.getTargetAddress())
+                .directionUrl("todo")
+                .roadViewUrl("todo")
+                .distance(String.format("%.2f km", direction.getDistance()))
+                .build();
+    }
 }

@@ -15,6 +15,7 @@ class RedisTemplateTest extends AbstractIntegrationContainerBaseTest{
         def key = "stringKey"
         def value = "hello"
 
+
         when:
         valueOperations.set(key, value)
 

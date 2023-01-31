@@ -6,9 +6,11 @@ import com.dev.pharmacy.api.dto.KakaoApiResponseDto;
 import com.dev.pharmacy.api.service.KakaoAddressSearchService;
 import com.dev.pharmacy.direction.dto.OutputDto;
 import com.dev.pharmacy.direction.entity.Direction;
+import com.dev.pharmacy.direction.service.Base62Service;
 import com.dev.pharmacy.direction.service.DirectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,10 +26,11 @@ public class PharmacyRecommendationService {
 
     private final KakaoAddressSearchService kakaoAddressSearchService;
     private final DirectionService directionService;
+    private final Base62Service base62Service;
 
+    @Value("${pharmacy.recommendation.base.url}")
+    private String baseUrl;
     private static final String ROAD_VIEW_BASE_URL ="https://map.kakao.com/link/roadview/";
-    private static final String DIRECTION_BASE_URL ="https://map.kakao.com/link/map/";
-
     public List<OutputDto> recommendPharmacyList(String address){
 
      KakaoApiResponseDto kakaoApiResponseDto = kakaoAddressSearchService.requestAddressSearch(address);
@@ -50,15 +53,10 @@ public class PharmacyRecommendationService {
 
     private OutputDto convertToOutputDto(Direction direction) {
 
-        String param = String.join(",",direction.getTargetPharmacyName(),
-                String.valueOf(direction.getTargetLatitude()),String.valueOf(direction.getTargetLongitude()));
-
-        String uriResult = UriComponentsBuilder.fromHttpUrl(DIRECTION_BASE_URL+param).toUriString();
-
         return OutputDto.builder()
                 .pharmacyName(direction.getTargetPharmacyName())
                 .pharmacyAddress(direction.getTargetAddress())
-                .directionUrl(uriResult)
+                .directionUrl(baseUrl + base62Service.encodeDirectionId(direction.getId()))
                 .roadViewUrl(ROAD_VIEW_BASE_URL + direction.getTargetLatitude() +","+direction.getTargetLongitude())
                 .distance(String.format("%.2f km", direction.getDistance()))
                 .build();

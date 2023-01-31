@@ -2,6 +2,7 @@ package com.dev.pharmacy.pharmacy.cache
 
 import com.dev.pharmacy.pharmacy.repository.AbstractIntegrationContainerBaseTest
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.redis.core.RedisTemplate
 
 class RedisTemplateTest extends AbstractIntegrationContainerBaseTest{
 

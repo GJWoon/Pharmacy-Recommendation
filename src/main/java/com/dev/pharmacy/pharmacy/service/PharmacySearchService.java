@@ -1,6 +1,7 @@
 package com.dev.pharmacy.pharmacy.service;
 
 
+import com.dev.pharmacy.pharmacy.cache.PharmacyRedisTemplateService;
 import com.dev.pharmacy.pharmacy.dto.PharmacyDto;
 import com.dev.pharmacy.pharmacy.entity.Pharmacy;
 import com.dev.pharmacy.pharmacy.repository.PharmacyRepository;
@@ -15,7 +16,14 @@ import java.util.stream.Collectors;
 public class PharmacySearchService {
     private final PharmacyRepository pharmacyRepository;
 
+    private final PharmacyRedisTemplateService pharmacyRedisTemplateService;
+
     public List<PharmacyDto> searchPharmacyDtoList() {
+
+        //redis
+        List<PharmacyDto> pharmacyDtoList = pharmacyRedisTemplateService.findAll();
+
+        if(!pharmacyDtoList.isEmpty()) return pharmacyDtoList;
 
         //db
         return pharmacyRepository.findAll()

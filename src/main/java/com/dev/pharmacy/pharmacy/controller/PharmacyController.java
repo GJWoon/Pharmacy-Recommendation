@@ -21,6 +21,7 @@ public class PharmacyController {
     @GetMapping("/redis/save")
     public String save() {
 
+
         List<PharmacyDto> pharmacyDtoList = pharmacyRepository.findAll()
                 .stream().map(pharmacy -> PharmacyDto.builder()
                         .id(pharmacy.getId())

@@ -14,6 +14,7 @@ services:                                               # 이 항목 밑에 실�
       dockerfile: Dockerfile
       context: ./database
     image: zcx5674/pharmacy-recommendation-database
+    privileged: true
     environment:
       - MARIADB_DATABASE=pharmacy-recommendation
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}

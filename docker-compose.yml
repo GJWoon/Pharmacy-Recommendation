@@ -8,27 +8,25 @@ services:                                               # 이 항목 밑에 실�
     image: gjwoon/pharmacy-recommendation-redis
     ports:
       - "6379:6379"
-  db:
-    image: mariadb:10
-    ports:
-      - 3306:3306
+  pharmacy-recommendation-database:
+    container_name: pharmacy-recommendation-database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: zcx5674/pharmacy-recommendation-database
+    environment:
+      - MARIADB_DATABASE=pharmacy-recommendation
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     volumes:
       - ./database/conf.d:/etc/mysql/conf.d
       - ./database/init:/docker-entrypoint-initdb.d
-    environment:
-      TZ: Asia/Seoul
-      MARIADB_DATABASE: pharmacy-recommendation
-      MARIADB_ROOT_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      MARIADB_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      MARIADB_USER: root
-    restart: always
-    privileged: true
-
+    ports:
+      - "3306:3306"      # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
   pharmacy-recommendation-app:
     container_name: pharmacy-recommendation-app
     build: .
     depends_on:          # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
-      - db
+      - pharmacy-recommendation-database
       - pharmacy-recommendation-redis
     image: gjwoon/pharmacy-recommendation-app
     environment:

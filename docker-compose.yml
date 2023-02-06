@@ -28,7 +28,7 @@ services:                                               # 이 항목 밑에 실�
     container_name: pharmacy-recommendation-app
     build: .
     depends_on:          # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
-      - pharmacy-recommendation-database
+      - db
       - pharmacy-recommendation-redis
     image: gjwoon/pharmacy-recommendation-app
     environment:

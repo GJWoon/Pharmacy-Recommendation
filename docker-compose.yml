@@ -5,7 +5,7 @@ services:                                               # 이 항목 밑에 실�
     build:
       dockerfile: Dockerfile
       context: ./redis
-    image: zcx5674/pharmacy-recommendation-redis
+    image: gjwoon/pharmacy-recommendation-redis
     ports:
       - "6379:6379"
   pharmacy-recommendation-database:
@@ -13,7 +13,7 @@ services:                                               # 이 항목 밑에 실�
     build:
       dockerfile: Dockerfile
       context: ./database
-    image: zcx5674/pharmacy-recommendation-database
+    image: gjwoon/pharmacy-recommendation-database
     environment:
       - MARIADB_DATABASE=pharmacy-recommendation
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
@@ -28,7 +28,7 @@ services:                                               # 이 항목 밑에 실�
     depends_on:          # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
       - pharmacy-recommendation-database
       - pharmacy-recommendation-redis
-    image: zcx5674/pharmacy-recommendation-app
+    image: gjwoon/pharmacy-recommendation-app
     environment:
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}

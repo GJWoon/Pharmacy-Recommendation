@@ -22,6 +22,8 @@ services:                                               # 이 항목 밑에 실�
       MARIADB_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       MARIADB_USER: root
     restart: always
+    privileged: true
+
   pharmacy-recommendation-app:
     container_name: pharmacy-recommendation-app
     build: .

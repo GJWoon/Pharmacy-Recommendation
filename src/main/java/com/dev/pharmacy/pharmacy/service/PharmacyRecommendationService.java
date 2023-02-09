@@ -40,10 +40,10 @@ public class PharmacyRecommendationService {
      }
      DocumentDto document = kakaoApiResponseDto.getDocumentList().get(0);
 
-     List<Direction> directionList = directionService.buildDirectionList(document);
+     //List<Direction> directionList = directionService.buildDirectionList(document);
 
      // 카카오 카테고리 API를 사용
-     //List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
+     List<Direction> directionList = directionService.buildDirectionListByCategoryApi(document);
 
         directionService.saveAll(directionList);
         return directionList.stream()

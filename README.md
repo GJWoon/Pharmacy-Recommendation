@@ -69,4 +69,19 @@
 - Redis
 - MariaDB
 - Spock   
-- Testcontainers   
+- Testcontainers  
+
+## 메인화면
+
+<img width="1355" alt="image" src="https://user-images.githubusercontent.com/72774518/217802348-b302062c-4333-494d-aee0-1dbc814212e6.png">
+
+프로젝트의 메인화면으로 검색을 할 수 있으며 입력창을 누르면 KAKAO 주소검색 팝업이 나오개 됩니다.
+
+<img width="504" alt="image" src="https://user-images.githubusercontent.com/72774518/217802498-0d6cb734-e318-419c-9b7d-70ee151dd444.png">
+
+
+## 검색결과 화면
+
+<img width="1680" alt="image" src="https://user-images.githubusercontent.com/72774518/217802747-16e016d2-0766-4e71-ae81-2defc40148a6.png">
+
+검색 결과화면으로 검색한 지역에서 가까운 순으로 약국 3곳을 검색해주며 길안내링크는 Base62인코딩을 통해 shortUrl로 제공해줍니다.
